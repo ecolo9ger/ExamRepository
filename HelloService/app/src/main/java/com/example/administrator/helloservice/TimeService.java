@@ -50,7 +50,6 @@ public class TimeService extends Service {
                 }
             }
         };
-
         _thread.start();
     }
 
