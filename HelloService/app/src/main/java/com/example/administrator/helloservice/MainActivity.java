@@ -30,6 +30,10 @@ public class MainActivity extends ActionBarActivity {
         stopService(_intent);
     }
 
+    public void onClick_btnGetData(View v){
+        
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

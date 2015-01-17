@@ -59,8 +59,17 @@ public class TimeService extends Service {
         super.onDestroy();
     }
 
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+
+        Log.i(DEBUG_NAME, "onUnbind" + intent);
+        return super.onUnbind(intent);
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
+        Log.i(DEBUG_NAME, "onBind" + intent);
         return null;
     }
 }
