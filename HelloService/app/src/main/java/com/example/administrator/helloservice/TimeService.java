@@ -13,8 +13,6 @@ public class TimeService extends Service {
 
     private String DEBUG_NAME = "Ecolo9ger_Count";
     private long mCountRemaining;
-    private Runnable mRunnable;
-
 
     public long getmCountRemaining() {
         return mCountRemaining;
@@ -31,10 +29,10 @@ public class TimeService extends Service {
     }
 
     private void excuteCount() {
-
-        mRunnable = new Runnable() {
+        Thread _thread = new Thread("TimerCount"){
             @Override
             public void run() {
+                super.run();
                 try {
                     if(mCountRemaining > 0) {
                         for(long i = mCountRemaining; i >= 0; i--) {
@@ -48,12 +46,11 @@ public class TimeService extends Service {
                         }
                     }
                 } finally {
-                //    stopSelf();
                     Log.i(DEBUG_NAME, "서비스가 끝났습니다.");
                 }
             }
         };
-        Thread _thread = new Thread(mRunnable, "TimerCount");
+
         _thread.start();
     }
 
