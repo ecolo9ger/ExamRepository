@@ -9,10 +9,30 @@ import android.os.IBinder;
  */
 public class TimeService extends Service {
 
+    private long mCountRemaining;
+
+    public long getmCountRemaining() {
+        return mCountRemaining;
+    }
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void excuteCount(){
+        if(mCountRemaining == 0){
+            for(int i=0; i <= mCountRemaining; i--){
+                mCountRemaining--;
+            }
+        }
+        else
+        {
+            //서비스 끝내라!
+        }
+
     }
 
     @Override
