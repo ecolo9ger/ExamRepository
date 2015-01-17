@@ -1,41 +1,49 @@
 package com.example.administrator.helloservice;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity2 extends ActionBarActivity {
+
     private String DEBUG_NAME ="Ecolo9ger_Count";
 
-    TimeService mTimerService;
+    public int getmNumber() {
+        return mNumber;
+    }
+
+    public void setmNumber(int mNumber) {
+        this.mNumber = mNumber;
+    }
+
+    public String getmText() {
+        return mText;
+    }
+
+    public void setmText(String mText) {
+        this.mText = mText;
+    }
+
+    private int mNumber;
+    private String mText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-    public void onClick_btnAction(View v){
-
-        mTimerService = new TimeService();
-       // Intent _intent = new Intent(getBaseContext(), TimeService.class);
-        Intent _intent = new Intent(getBaseContext(), MainActivity2.class);
-        _intent.putExtra("CountRemaining",100);
-        startActivity(_intent);
-    }
-
-    public void onClick_btnFinish(View v){
-
+        setContentView(R.layout.activity_main_activity2);
+        int _i ;
+        _i = getIntent().getIntExtra("CountRemaining",0);
+        Log.i(DEBUG_NAME, "intent value : " + _i);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main_activity2, menu);
         return true;
     }
 
