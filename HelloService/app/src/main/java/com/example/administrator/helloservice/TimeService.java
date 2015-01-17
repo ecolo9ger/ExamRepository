@@ -24,14 +24,13 @@ public class TimeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
+        Log.i(DEBUG_NAME, "onStartCommand");
         mCountRemaining = intent.getLongExtra("CountRemaining", 0);
         excuteCount();
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void excuteCount() {
-        Thread _thread = new Thread(mRunnable, "TimerCount");
 
         mRunnable = new Runnable() {
             @Override
@@ -54,7 +53,14 @@ public class TimeService extends Service {
                 }
             }
         };
+        Thread _thread = new Thread(mRunnable, "TimerCount");
         _thread.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(DEBUG_NAME, "onDestroy");
+        super.onDestroy();
     }
 
     @Override
