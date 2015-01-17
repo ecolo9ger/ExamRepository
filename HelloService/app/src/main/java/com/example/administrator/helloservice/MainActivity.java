@@ -1,8 +1,12 @@
 package com.example.administrator.helloservice;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +20,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent _intent = new Intent(getBaseContext(), TimeService.class);
+        bindService(_intent, mConnection,BIND_AUTO_CREATE);
     }
 
     public void onClick_btnAction(View v){
         Intent _intent = new Intent(getBaseContext(), TimeService.class);
-        _intent.putExtra("CountRemaining",25L);
+        _intent.putExtra("CountRemaining", 25L);
         startService(_intent);
     }
 
@@ -31,9 +37,29 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onClick_btnGetData(View v){
-        
+
     }
 
+    private ServiceConnection mConnection  = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            //서비스 연결됨
+            Log.i(DEBUG_NAME, "onServiceConnected");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            //서비스 끊김
+            Log.i(DEBUG_NAME, "onServiceDisconnected");
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        unbindService(mConnection);
+        Log.i(DEBUG_NAME, "onDestroy");
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

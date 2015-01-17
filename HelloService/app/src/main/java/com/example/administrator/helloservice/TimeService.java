@@ -20,9 +20,15 @@ public class TimeService extends Service {
 
 
     @Override
+    public void onCreate() {
+        Log.i(DEBUG_NAME, "service > onCreate");
+        super.onCreate();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i(DEBUG_NAME, "onStartCommand");
+        Log.i(DEBUG_NAME, "service > onStartCommand");
         mCountRemaining = intent.getLongExtra("CountRemaining", 0);
         excuteCount();
         return super.onStartCommand(intent, flags, startId);
@@ -46,7 +52,7 @@ public class TimeService extends Service {
                         }
                     }
                 } finally {
-                    Log.i(DEBUG_NAME, "서비스가 끝났습니다.");
+                    Log.i(DEBUG_NAME, "service > count finish");
                 }
             }
         };
@@ -55,7 +61,7 @@ public class TimeService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i(DEBUG_NAME, "onDestroy");
+        Log.i(DEBUG_NAME, "service > onDestroy");
         super.onDestroy();
     }
 
@@ -63,13 +69,13 @@ public class TimeService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
 
-        Log.i(DEBUG_NAME, "onUnbind" + intent);
+        Log.i(DEBUG_NAME, "service > onUnbind" + intent);
         return super.onUnbind(intent);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i(DEBUG_NAME, "onBind" + intent);
+        Log.i(DEBUG_NAME, "service > onBind" + intent);
         return null;
     }
 }
