@@ -31,6 +31,7 @@ public class TimeService extends Service {
     }
 
     private void excuteCount() {
+        Thread _thread = new Thread(mRunnable, "TimerCount");
 
         mRunnable = new Runnable() {
             @Override
@@ -48,14 +49,11 @@ public class TimeService extends Service {
                         }
                     }
                 } finally {
-                    stopSelf();
+                //    stopSelf();
                     Log.i(DEBUG_NAME, "서비스가 끝났습니다.");
                 }
             }
         };
-
-
-        Thread _thread = new Thread(mRunnable, "TimerCount");
         _thread.start();
     }
 
