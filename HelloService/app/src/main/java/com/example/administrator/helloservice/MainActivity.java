@@ -1,5 +1,6 @@
 package com.example.administrator.helloservice;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,7 +9,9 @@ import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity {
+    private String DEBUG_NAME ="Ecolo9ger_Count";
 
+    TimeService mTimerService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +20,10 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick_btnAction(View v){
 
+        mTimerService = new TimeService();
+        Intent _intent = new Intent(getBaseContext(), TimeService.class);
+        _intent.putExtra("CountRemaining",100L);
+        startService(_intent);
     }
 
     public void onClick_btnFinish(View v){
