@@ -19,15 +19,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onClick_btnAction(View v){
-
-        mTimerService = new TimeService();
         Intent _intent = new Intent(getBaseContext(), TimeService.class);
-        _intent.putExtra("CountRemaining",100L);
+        _intent.putExtra("CountRemaining",25L);
         startService(_intent);
     }
 
     public void onClick_btnFinish(View v){
-
+        Intent _intent = new Intent(getBaseContext(), TimeService.class);
+        _intent.putExtra("CountRemaining",0L);
+        stopService(_intent);
     }
 
 

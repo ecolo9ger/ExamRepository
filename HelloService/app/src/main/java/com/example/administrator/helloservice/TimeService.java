@@ -11,8 +11,10 @@ import android.util.Log;
  */
 public class TimeService extends Service {
 
-    private String DEBUG_NAME ="Ecolo9ger_Count";
+    private String DEBUG_NAME = "Ecolo9ger_Count";
     private long mCountRemaining;
+    private Runnable mRunnable;
+
 
     public long getmCountRemaining() {
         return mCountRemaining;
@@ -22,24 +24,39 @@ public class TimeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
         mCountRemaining = intent.getLongExtra("CountRemaining", 0);
         excuteCount();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void excuteCount(){
-        if(mCountRemaining > 0){
-            for(int i=0; i <= mCountRemaining; i--){
-                Log.i(DEBUG_NAME, "count : " + i);
-                mCountRemaining--;
-            }
-        }
-        else
-        {
-            stopSelf();
-            Log.i(DEBUG_NAME, "서비스가 끝났습니다.");
-        }
+    private void excuteCount() {
 
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if(mCountRemaining > 0) {
+                        for(long i = mCountRemaining; i >= 0; i--) {
+                            Log.i(DEBUG_NAME, "count : " + i);
+                            mCountRemaining--;
+                            try {
+                                Thread.sleep(1000);
+                            } catch(InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } finally {
+                    stopSelf();
+                    Log.i(DEBUG_NAME, "서비스가 끝났습니다.");
+                }
+            }
+        };
+
+
+        Thread _thread = new Thread(mRunnable, "TimerCount");
+        _thread.start();
     }
 
     @Override
