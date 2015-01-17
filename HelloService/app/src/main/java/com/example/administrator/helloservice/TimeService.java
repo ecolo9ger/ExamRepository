@@ -3,7 +3,7 @@ package com.example.administrator.helloservice;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -73,9 +73,23 @@ public class TimeService extends Service {
         return super.onUnbind(intent);
     }
 
+
+    private final ICountService.Stub mBinder = new ICountService.Stub() {
+        @Override
+        public long getCountNumber() throws RemoteException {
+            return mCountRemaining;
+        }
+
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean,
+                               float aFloat, double aDouble, String aString) throws RemoteException {
+
+        }
+    };
     @Override
     public IBinder onBind(Intent intent) {
+
         Log.i(DEBUG_NAME, "service > onBind" + intent);
-        return null;
+        return mBinder;
     }
 }

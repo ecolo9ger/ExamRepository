@@ -4,22 +4,28 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends ActionBarActivity {
     private String DEBUG_NAME ="Ecolo9ger_Count";
 
     TimeService mTimerService;
+    private ICountService mBinder = null;
+    private TextView lblTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lblTitle = (TextView)findViewById(R.id.lblTitle);
         Intent _intent = new Intent(getBaseContext(), TimeService.class);
         bindService(_intent, mConnection,BIND_AUTO_CREATE);
     }
@@ -38,12 +44,21 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick_btnGetData(View v){
 
+        long _currentNumber = 0;
+        try {
+            _currentNumber = mBinder.getCountNumber();
+        } catch(RemoteException e) {
+            e.printStackTrace();
+        }
+
+        lblTitle.setText("Current Count : " + _currentNumber);
     }
 
     private ServiceConnection mConnection  = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             //서비스 연결됨
+            mBinder = ICountService.Stub.asInterface(service);
             Log.i(DEBUG_NAME, "onServiceConnected");
         }
 
@@ -53,6 +68,7 @@ public class MainActivity extends ActionBarActivity {
             Log.i(DEBUG_NAME, "onServiceDisconnected");
         }
     };
+
 
     @Override
     protected void onDestroy() {
